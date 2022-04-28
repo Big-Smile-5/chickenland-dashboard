@@ -77,10 +77,10 @@ function Home() {
 
     return (
         <section className='relative w-full'>
-            <div className='w-full absolute'>
-                <img className='h-screen object-cover lg:h-auto' src="./images/background.jpg" alt="back_img"></img>
+            <div className='w-full h-full absolute'>
+                <img className='h-full object-cover lg:h-auto' src="./images/background.jpg" alt="back_img"></img>
             </div>
-            <div className='relative z-10 flex flex-wrap justify-center w-full h-max py-20'>
+            <div className='relative z-10 flex flex-wrap justify-center w-full py-20'>
                 <div className='flex flex-col place-items-center w-22rem bg-primary text-white shadow-2xl drop-shadow-2xl space-y-5 px-4 py-7 rounded-xl mx-3 my-2 tab'>
                     <h1 className='text-3xl pb-3'>Referral</h1>
                     <input className='w-4/5 px-5 py-2 border border-dark-blue rounded-sm text-gray-600 outline-none' type="text" defaultValue={isConnected === true ?referral:''} placeholder='Your referral link...' />
