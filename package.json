@@ -2,6 +2,10 @@
   "name": "chickenland",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "npm": "6.14.13",
+    "node": "14.17.0"
+  },
   "dependencies": {
     "@brainhubeu/react-carousel": "^2.0.4",
     "@craco/craco": "^5.9.0",
