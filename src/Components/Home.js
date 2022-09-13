@@ -5,30 +5,38 @@ import eventBus from './EventBus'
 function Home() {
 
     const [isConnected, setIsConnected] = useState(false)
-    const [address, setAddress] = useState('')
     const [referral, setReferral] = useState('')
     const [text, setText] = useState('Copy Link')
     const [amount, setAmount] = useState(0)
     const [nativeBalance, setNativeBalance] = useState(0)
     const [contractBalance, setContractBalance] = useState(0)
     const [chickenBalance, setChickenBalance] = useState(0)
+    const [eggBalance, setEggBalance] = useState(0)
+    const [cornBalance, setCornBalance] = useState(0)
     const [claimableNative, setClaimableNative] = useState(0)
     const [isAutoCompound, setIsAutoCompound] = useState(true)
     const [payDay, setPayDay] = useState(3)
     const [currentStrategy, setCurrentStrategy] = useState(0)
+    const [isInAutoCompound, setIsInAutoCompound] = useState(false)
 
     const onConnectWallet = (data) => {
+        let url = window.location.href
+        if(url.indexOf('ref') !== -1) {
+            url = url.slice(0, url.indexOf('ref') - 1)
+        }
         setIsConnected(true)
-        setAddress(data.address)
-        setReferral(window.location.href + '/?ref=' + data.address)
+        setReferral(url + '?ref=' + data.address)
     }
 
     const onStateUpdated = (data) => {
+        setCornBalance(data.cornBalance)
         setNativeBalance(data.nativeBalance)
         setContractBalance(data.contractBalance)
         setChickenBalance(data.chickenBalance)
+        setEggBalance(data.eggBalance)
         setClaimableNative(data.claimableNative)
         setCurrentStrategy(data.currentStrategy)
+        setIsInAutoCompound(data.isAutoCompound)
     }
 
     const emitBuyChicken = () => {
@@ -47,10 +55,12 @@ function Home() {
     }
 
     const emitSetAutoCompound = () => {
-        eventBus.dispatch('setAutoCompound', {
-            isAutoCompound,
-            payDay
-        })   
+        if(parseInt(payDay) >= 1 && parseInt(payDay) <= 1000) {
+            eventBus.dispatch('setAutoCompound', {
+                isAutoCompound,
+                payDay
+            })   
+        }
     }
 
     const showTooltip = () => {
@@ -80,7 +90,7 @@ function Home() {
             <div className='w-full h-full absolute'>
                 <img className='h-full object-cover lg:h-auto' src="./images/background.jpg" alt="back_img"></img>
             </div>
-            <div className='relative z-10 flex flex-wrap justify-center w-full py-20'>
+            <div className='relative flex flex-wrap justify-center w-full py-20'>
                 <div className='flex flex-col place-items-center w-22rem bg-primary text-white shadow-2xl drop-shadow-2xl space-y-5 px-4 py-7 rounded-xl mx-3 my-2 tab'>
                     <h1 className='text-3xl pb-3'>Referral</h1>
                     <input className='w-4/5 px-5 py-2 border border-dark-blue rounded-sm text-gray-600 outline-none' type="text" defaultValue={isConnected === true ?referral:''} placeholder='Your referral link...' />
@@ -88,8 +98,8 @@ function Home() {
                         <button className='bg-dark-blue px-5 py-2 rounded-lg shadow-md'>{text}</button>
                     </CopyToClipboard>
                     <ul className='space-y-3'>
-                        <li>Earn 5% of the BNB used to hire Chickens from anyone who uses your referral link.</li>
-                        <li>6:1 Optimal strategy to get the best return is to Hatch your Eggs (Compuound) for 6 dyas straight and Sell your Eggs (Claim) on the 7th day, each week. If you Claim more frequently, you will get less and less rewards daily.</li>
+                        <li>Earn 10% of the BNB used to hire Chickens from anyone who uses your referral link.</li>
+                        <li>9:1 Optimal strategy to get the best return is to Hatch your Eggs (Compound) for 9 days straight and Sell your Eggs (Claim) on the 10th day, each week. If you Claim more frequently, you will get fewer and fewer rewards daily.</li>
                     </ul>
                 </div>
 
@@ -107,6 +117,10 @@ function Home() {
                         <h1>Your Chickens</h1>
                         <h1>{chickenBalance}</h1>
                     </div>
+                    <div className='flex justify-between w-full'>
+                        <h1>Your Corn</h1>
+                        <h1>{cornBalance}</h1>
+                    </div>
                     <input className='w-full px-5 py-2 border border-dark-blue rounded-sm text-gray-600 text-right outline-none'
                            type="text"
                            onChange={(e) => setAmount(e.target.value)}
@@ -114,12 +128,13 @@ function Home() {
                     <div className='flex justify-between w-full'>
                         <button className='uppercase bg-dark-blue px-5 py-2 rounded-lg shadow-md'
                                 onClick={() => emitBuyChicken()}>buy chickens</button>
-                        <button className='uppercase bg-gray-600 px-5 py-2 rounded-lg shadow-md cursor-not-allowed'
-                                onClick={() => emitBuyChicken()}>BUY $CORN</button>
+                        <a className='uppercase bg-dark-blue px-5 py-2 rounded-lg shadow-md'
+                            href='https://chickenland.io/#buycorn' target="_blank" rel="noopener noreferrer"
+                                >BUY $CORN</a>
                     </div>
                     <div className='flex justify-between w-full'>
                         <h1>Your Rewards</h1>
-                        <h1>{claimableNative} BNB</h1>
+                        <h1>{eggBalance} Eggs ({claimableNative} BNB)</h1>
                     </div>
                     <div className='flex justify-between w-full'>
                         <button className="uppercase bg-dark-blue px-5 py-2 rounded-lg shadow-md"
@@ -133,11 +148,11 @@ function Home() {
                     <h1 className='text-3xl pb-3'>Chicken Land Facts</h1>
                     <div className='flex justify-between w-full'>
                         <h1>Daily Return</h1>
-                        <h1>8%</h1>
+                        <h1>9%</h1>
                     </div>
                     <div className='flex justify-between w-full'>
                         <h1>APR</h1>
-                        <h1>2,920%</h1>
+                        <h1>3,285%</h1>
                     </div>
                     <div className='flex justify-between w-full'>
                         <h1>Marketing Fee</h1>
@@ -149,7 +164,10 @@ function Home() {
                     </div>
                     <div className='flex justify-between w-full'>
                         <h1>Current Strategy</h1>
-                        <h1>{currentStrategy} : 1</h1>
+                        { isInAutoCompound === true
+                           ? <h1>{currentStrategy} : 1</h1>
+                           : <h1>No strategy</h1>
+                        }
                     </div>
                     <div className='flex justify-between w-full space-x-3'>
                         <h1>Sell Eggs Every X Days</h1>
@@ -166,6 +184,9 @@ function Home() {
                     </div>
                     <button className="uppercase bg-dark-blue px-5 py-2 rounded-lg shadow-md"
                             onClick={() => emitSetAutoCompound()}>Apply Strategy</button>
+                    <div className='w-full'>
+                        <h1>Chicken needs to eat BitCORN in order to provide maximum Daily Returns.</h1>
+                    </div>
                 </div>
             </div>
         </section>

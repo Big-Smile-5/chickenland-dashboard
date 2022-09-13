@@ -1,5 +1,5 @@
 const contractInfo = {
-	address: "0xC7F4cD48919666875cBAeaB528f31C791D930261",
+	address: "0xc9c4897Fc389B436296BF32099BDF4174A3F14f7",  // 0xC7F4cD48919666875cBAeaB528f31C791D930261
 	abi: [
 		{
 		  "inputs": [],
@@ -434,7 +434,7 @@ const contractInfo = {
 		},
 		{
 		  "inputs": [],
-		  "name": "dailyEmission",
+		  "name": "dailyHarvest",
 		  "outputs": [
 			{
 			  "internalType": "uint256",
@@ -496,6 +496,25 @@ const contractInfo = {
 			  "internalType": "bool",
 			  "name": "",
 			  "type": "bool"
+			}
+		  ],
+		  "stateMutability": "view",
+		  "type": "function"
+		},
+		{
+		  "inputs": [
+			{
+			  "internalType": "address",
+			  "name": "",
+			  "type": "address"
+			}
+		  ],
+		  "name": "firstAdopt",
+		  "outputs": [
+			{
+			  "internalType": "uint256",
+			  "name": "",
+			  "type": "uint256"
 			}
 		  ],
 		  "stateMutability": "view",
@@ -621,6 +640,25 @@ const contractInfo = {
 			}
 		  ],
 		  "stateMutability": "nonpayable",
+		  "type": "function"
+		},
+		{
+		  "inputs": [
+			{
+			  "internalType": "address",
+			  "name": "account",
+			  "type": "address"
+			}
+		  ],
+		  "name": "isAutoCompound",
+		  "outputs": [
+			{
+			  "internalType": "bool",
+			  "name": "",
+			  "type": "bool"
+			}
+		  ],
+		  "stateMutability": "view",
 		  "type": "function"
 		},
 		{
@@ -754,6 +792,19 @@ const contractInfo = {
 			}
 		  ],
 		  "name": "setAutoCompound",
+		  "outputs": [],
+		  "stateMutability": "nonpayable",
+		  "type": "function"
+		},
+		{
+		  "inputs": [
+			{
+			  "internalType": "uint256",
+			  "name": "harvest",
+			  "type": "uint256"
+			}
+		  ],
+		  "name": "setDailyHarvest",
 		  "outputs": [],
 		  "stateMutability": "nonpayable",
 		  "type": "function"
